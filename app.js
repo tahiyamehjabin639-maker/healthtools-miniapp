@@ -1,36 +1,36 @@
 // Telegram Mini App
-if (window.Telegram && Telegram.WebApp) {
-  Telegram.WebApp.ready();
-  Telegram.WebApp.expand();
+const tg = window.Telegram?.WebApp;
+if (tg) {
+    tg.ready();
+    tg.expand();
 }
 
-// BMI Calculator
-function calculateBMI() {
-  const height = parseFloat(document.getElementById("height").value);
-  const weight = parseFloat(document.getElementById("weight").value);
-  const result = document.getElementById("result");
+// Search Tools
+const search = document.getElementById("search");
 
-  if (!height || !weight) {
-    result.innerHTML = "⚠️ Please enter height and weight.";
-    return;
-  }
+if (search) {
+    search.addEventListener("keyup", function () {
+        const value = this.value.toLowerCase();
 
-  const bmi = weight / ((height / 100) * (height / 100));
+        document.querySelectorAll(".tool-card").forEach(card => {
+            const text = card.innerText.toLowerCase();
 
-  let status = "";
-
-  if (bmi < 18.5) {
-    status = "Underweight";
-  } else if (bmi < 25) {
-    status = "Healthy";
-  } else if (bmi < 30) {
-    status = "Overweight";
-  } else {
-    status = "Obese";
-  }
-
-  result.innerHTML = `
-    <h2>${bmi.toFixed(1)}</h2>
-    <p>${status}</p>
-  `;
+            card.style.display = text.includes(value)
+                ? "block"
+                : "none";
+        });
+    });
 }
+
+// Open Tool
+document.querySelectorAll(".tool-card button").forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        const title = btn.parentElement.querySelector("h3").innerText;
+
+        alert(title + "\n\nComing Soon 🚀");
+
+    });
+
+});
