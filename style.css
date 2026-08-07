@@ -1,114 +1,64 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+// Telegram Mini App
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+    tg.ready();
+    tg.expand();
 }
 
-body{
-    background:#f5f7fb;
-    color:#222;
+// BMI Calculator
+function calculateBMI() {
+
+    const height = parseFloat(document.getElementById("height").value);
+    const weight = parseFloat(document.getElementById("weight").value);
+
+    if (!height || !weight) {
+        alert("Please enter height and weight.");
+        return;
+    }
+
+    const bmi = weight / ((height / 100) * (height / 100));
+
+    document.getElementById("bmiResult").innerHTML =
+        "BMI: " + bmi.toFixed(1);
+
+    let status = "";
+
+    if (bmi < 18.5)
+        status = "🔵 Underweight";
+
+    else if (bmi < 25)
+        status = "🟢 Normal Weight";
+
+    else if (bmi < 30)
+        status = "🟠 Overweight";
+
+    else
+        status = "🔴 Obese";
+
+    document.getElementById("bmiStatus").innerHTML = status;
 }
 
-.topbar{
-    background:linear-gradient(135deg,#0f9d58,#34a853);
-    color:#fff;
-    text-align:center;
-    padding:25px 15px;
-    border-radius:0 0 25px 25px;
-    box-shadow:0 5px 20px rgba(0,0,0,.15);
-}
+// Search
+const search = document.getElementById("search");
 
-.topbar h1{
-    font-size:30px;
-    margin-bottom:8px;
-}
+if (search) {
 
-.topbar p{
-    opacity:.9;
-    font-size:15px;
-}
+    search.addEventListener("keyup", function () {
 
-.hero{
-    margin:20px;
-    background:#fff;
-    padding:20px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
+        const value = this.value.toLowerCase();
 
-.hero h2{
-    font-size:28px;
-    margin-bottom:10px;
-}
+        document.querySelectorAll(".tool-card").forEach(card => {
 
-.hero p{
-    color:#666;
-    margin-bottom:20px;
-}
+            const text = card.innerText.toLowerCase();
 
-#search{
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:1px solid #ddd;
-    outline:none;
-    font-size:16px;
-}
+            card.style.display =
+                text.includes(value)
+                    ? "block"
+                    : "none";
 
-.tools{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:18px;
-    padding:20px;
-}
+        });
 
-.tool-card{
-    background:#fff;
-    border-radius:18px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-    transition:.3s;
-}
-
-.tool-card:hover{
-    transform:translateY(-5px);
-}
-
-.tool-card h3{
-    margin-bottom:15px;
-    font-size:18px;
-}
-
-.tool-card button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    background:#0f9d58;
-    color:#fff;
-    font-size:16px;
-    cursor:pointer;
-}
-
-.tool-card button:hover{
-    background:#087d45;
-}
-
-@media(max-width:600px){
-
-.topbar h1{
-font-size:24px;
-}
-
-.hero h2{
-font-size:22px;
-}
-
-.tools{
-grid-template-columns:1fr;
-}
+    });
 
 }
