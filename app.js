@@ -56,7 +56,6 @@ if (search) {
                 text.includes(value)
                     ? "block"
                     : "none";
-
         });
 
     });
